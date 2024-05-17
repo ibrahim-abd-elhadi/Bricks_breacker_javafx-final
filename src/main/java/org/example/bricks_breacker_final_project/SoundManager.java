@@ -1,4 +1,4 @@
-package org.example.javafx_project_bricksbreaker;
+package org.example.bricks_breacker_final_project;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
