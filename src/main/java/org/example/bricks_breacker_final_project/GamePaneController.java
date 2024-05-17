@@ -53,6 +53,7 @@ public class GamePaneController implements Initializable {
     private Text scoreText; // For displaying the score on the screen
     private int BestScore = 0;
     private final String SCORE_FILE = "src/main/resources/org/example/bricks_breacker_final_project/best_score.txt";
+    private SoundManager soundManager = new SoundManager();
 
     private GameController gameController;
 
@@ -358,11 +359,13 @@ public class GamePaneController implements Initializable {
 
         for (int i = 0; i < numBricks; i++) {
             if (bricks[i] != null && bricks[i].getHealth() > 0 && ball.getBoundsInParent().intersects(bricks[i].getBoundsInParent())) {
+
                 bricks[i].decreaseHealth();
                 updateScore(1);
                 updateHealthText(i);
                 if (bricks[i].getHealth() == 0) {
                     bricks[i].setVisible(false);
+                    SoundManager.playSound("Hit.mp3");
                     updateScore(20);
                 }
 

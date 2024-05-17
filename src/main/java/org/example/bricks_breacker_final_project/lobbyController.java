@@ -24,6 +24,7 @@ public class lobbyController {
     void switch_scene(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("GamePane.fxml"));
+            SoundManager.playSound("Hit.mp3");
             root = loader.load();
 
             // Access the controller of GamePane.fxml if needed
