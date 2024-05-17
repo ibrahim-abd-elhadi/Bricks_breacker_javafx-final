@@ -3,7 +3,7 @@ import java.io.*;
 
 public class GameController {
     private GamePaneController gamePaneController;
-    private final String SCORE_FILE = "C:\\Users\\alqay\\bricks_breacker_final_project\\src\\main\\resources\\org\\example\\bricks_breacker_final_project\\best_score.txt";
+    private final String SCORE_FILE = "src/main/resources/org/example/bricks_breacker_final_project/best_score.txt";
 
     public GameController(GamePaneController gamePaneController) {
         this.gamePaneController = gamePaneController;

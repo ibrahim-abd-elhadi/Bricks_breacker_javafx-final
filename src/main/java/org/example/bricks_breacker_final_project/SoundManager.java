@@ -3,8 +3,6 @@ package org.example.bricks_breacker_final_project;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
-import java.io.File;
-
 public class SoundManager {
     static void playSound(String soundFilePath) {
         // Create a new MediaPlayer instance for each hit sound
