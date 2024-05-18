@@ -9,6 +9,8 @@ import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -53,9 +55,9 @@ public class GamePaneController implements Initializable {
     private Text scoreText; // For displaying the score on the screen
     private int BestScore = 0;
     private final String SCORE_FILE = "src/main/resources/org/example/bricks_breacker_final_project/best_score.txt";
-    private SoundManager soundManager = new SoundManager();
 
     private GameController gameController;
+    private boolean warningSoundPlayed = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -74,6 +76,11 @@ public class GamePaneController implements Initializable {
                 updateBestScore(score);
                 ballnum.setText("x" + (numBallsToLaunch - ballsLaunched) + "");
                 for (Brick brick : bricks) {
+                    if (brick != null && brick.getY() >= 570 && brick.getY() <= 591) {
+                        if (!warningSoundPlayed) {
+                            SoundManager.playSound("Sound_Effects/Warning.mp3");
+                            warningSoundPlayed = true;
+                        }                    }
                     if (brick != null && brick.getY() >= 591) {
                         this.stop(); // Stop the game timer
                         Platform.runLater(this::showEndGameDialog); // Show dialog on JavaFX Application Thread
@@ -92,10 +99,12 @@ public class GamePaneController implements Initializable {
 
             private void showEndGameDialog() {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                SoundManager.playSound("Sound_Effects/Lose.mp3");
                 alert.setTitle("Game Over");
                 alert.setHeaderText("A brick has reached the critical position!");
                 alert.setContentText("Choose your option:");
-
+//                ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream("/src/main/resources/org/example/bricks_breacker_final_project/photos/ballang.jpg")));
+//                alert.setGraphic(imageView);
                 ButtonType buttonTypeRetry = new ButtonType("Retry");
                 ButtonType buttonTypeExit = new ButtonType("Exit");
                 alert.getButtonTypes().setAll(buttonTypeRetry, buttonTypeExit);
@@ -103,6 +112,7 @@ public class GamePaneController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.isPresent()) {
                     if (result.get() == buttonTypeRetry) {
+                        SoundManager.playSound("Sound_Effects/Start.mp3");
                         maxHealth = 30;
                         score = 0;
                         numBallsToLaunch=74;
@@ -119,6 +129,7 @@ public class GamePaneController implements Initializable {
             }
 
             private void showLevelUpDialog() {
+                SoundManager.playSound("Sound_Effects/Victory.mp3");
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Congratulations");
                 alert.setHeaderText("You win this level!");
@@ -132,6 +143,7 @@ public class GamePaneController implements Initializable {
                 if (result.isPresent()) {
                     if (result.get() == buttonTypeNextLevel) {
                         reset();  // Reset game state and start over
+                        SoundManager.playSound("Sound_Effects/Start.mp3");
                         gameTimer.start();  // Restart the game timer
                     } else if (result.get() == buttonTypeExit) {
                         System.exit(0);  // Exit the game
@@ -363,9 +375,10 @@ public class GamePaneController implements Initializable {
                 bricks[i].decreaseHealth();
                 updateScore(1);
                 updateHealthText(i);
+                SoundManager.playSound("Sound_Effects/Hit.mp3");
                 if (bricks[i].getHealth() == 0) {
                     bricks[i].setVisible(false);
-                    SoundManager.playSound("Hit.mp3");
+                    SoundManager.playSound("Sound_Effects/Explosion.mp3");
                     updateScore(20);
                 }
 
@@ -405,7 +418,7 @@ public class GamePaneController implements Initializable {
         alignment.setStartX(cannonX);
         alignment.setStartY(cannonY);
         alignment.setStroke(Color.VIOLET);
-        alignment.setStrokeWidth(9);
+        alignment.setStrokeWidth(13);
         alignment.getStrokeDashArray().addAll(30d, 20d);
         root.getChildren().add(alignment);
         alignment.setVisible(false);
