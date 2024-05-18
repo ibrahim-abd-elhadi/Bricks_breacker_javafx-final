@@ -378,7 +378,10 @@ public class GamePaneController implements Initializable {
                 SoundManager.playSound("Sound_Effects/Hit.mp3");
                 if (bricks[i].getHealth() == 0) {
                     bricks[i].setVisible(false);
+<<<<<<< HEAD
                     SoundManager.playSound("Sound_Effects/Explosion.mp3");
+=======
+>>>>>>> e71112bd124342fae2dfdac56d8e0ee14011f0d0
                     updateScore(20);
                 }
 
