@@ -1,0 +1,47 @@
+/* gameover-alert.css */
+.dialog-pane {
+    -fx-background-color: #1e1e1e; /* Dark background */
+    -fx-border-color: #ff0000; /* Red border */
+    -fx-border-width: 2px; /* Border width */
+    -fx-padding: 20px; /* Padding around content */
+    -fx-background-radius: 10px; /* Rounded corners */
+    -fx-border-radius: 10px; /* Rounded corners for border */
+}
+
+
+.dialog-pane .header-panel .label {
+    -fx-text-fill: #ffffff; /* White text color */
+}
+
+.dialog-pane .content {
+    -fx-font-size: 26px; /* Larger text */
+    -fx-font-weight: 900;
+    -fx-text-fill: #ffffff; /* White text color */
+    -fx-padding: 20px; /* Padding for content */
+}
+
+.dialog-pane .button-bar {
+    -fx-background-color: #2e2e2e; /* Matching background for button bar */
+    -fx-background-radius: 0 0 10px 10px; /* Rounded bottom corners */
+    -fx-padding: 10px; /* Padding for button bar */
+}
+
+.dialog-pane .button-bar .button {
+    -fx-font-size: 21px;
+    -fx-background-color: #ff0000; /* Red button background */
+    -fx-text-fill: #ffffff; /* White text color */
+    -fx-font-weight: 900; /* Bold text */
+    -fx-background-radius: 5px; /* Rounded button corners */
+    -fx-min-width: 200px;
+    -fx-padding: 10px 10px; /* Padding inside buttons */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0); /* Drop shadow effect */
+}
+
+
+.dialog-pane .button-bar .button:hover {
+    -fx-background-color: #ff4444; /* Lighter red on hover */
+}
+
+.dialog-pane .button-bar .button:pressed {
+    -fx-background-color: #cc0000; /* Darker red on press */
+}

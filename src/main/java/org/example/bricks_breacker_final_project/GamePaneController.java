@@ -9,21 +9,17 @@ import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Slider;
-import javafx.scene.image.Image;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
-import static javafx.scene.paint.Color.DARKORANGE;
+import java.util.*;
 
 public class GamePaneController implements Initializable {
 
@@ -98,13 +94,20 @@ public class GamePaneController implements Initializable {
             }
 
             private void showEndGameDialog() {
+                VBox vBox = new VBox(10);
+                ImageView loseIcon = new ImageView(String.valueOf(this.getClass().getResource("/org/example/bricks_breacker_final_project/photos/loseicon.jpg")));
+                Label loseTextHeader = new Label("A brick has reached critical position!");
+                loseTextHeader.setTextFill(Color.WHITE);
+                vBox.setAlignment(Pos.CENTER); // Center the elements in the VBox
+                vBox.getChildren().addAll(loseIcon, loseTextHeader);
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 SoundManager.playSound("Sound_Effects/Lose.mp3");
+                alert.getDialogPane().setContent(vBox);
+                alert.setGraphic(null);
+                alert.setHeaderText(null);
+                alert.getDialogPane().getStylesheets().add(
+                        Objects.requireNonNull(getClass().getResource("/css/dialogStyle.css")).toExternalForm());
                 alert.setTitle("Game Over");
-                alert.setHeaderText("A brick has reached the critical position!");
-                alert.setContentText("Choose your option:");
-//                ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream("/src/main/resources/org/example/bricks_breacker_final_project/photos/ballang.jpg")));
-//                alert.setGraphic(imageView);
                 ButtonType buttonTypeRetry = new ButtonType("Retry");
                 ButtonType buttonTypeExit = new ButtonType("Exit");
                 alert.getButtonTypes().setAll(buttonTypeRetry, buttonTypeExit);
@@ -130,14 +133,23 @@ public class GamePaneController implements Initializable {
 
             private void showLevelUpDialog() {
                 SoundManager.playSound("Sound_Effects/Victory.mp3");
+                VBox vBox = new VBox(10);
+                ImageView winIcon = new ImageView(String.valueOf(this.getClass().getResource("/org/example/bricks_breacker_final_project/photos/winicon.jpg")));
+                Label winTextHeader = new Label("Level Cleared You Won!");
+                winTextHeader.setTextFill(Color.WHITE);
+                vBox.setAlignment(Pos.CENTER); // Center the elements in the VBox
+                vBox.getChildren().addAll(winIcon, winTextHeader);
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.getDialogPane().setContent(vBox);
+                alert.setGraphic(null);
+                alert.setHeaderText(null);
+                alert.getDialogPane().getStylesheets().add(
+                        Objects.requireNonNull(getClass().getResource("/css/dialogStyle.css")).toExternalForm());
                 alert.setTitle("Congratulations");
-                alert.setHeaderText("You win this level!");
-                alert.setContentText("Choose your option:");
-
                 ButtonType buttonTypeNextLevel = new ButtonType("Next Level");
                 ButtonType buttonTypeExit = new ButtonType("Exit");
                 alert.getButtonTypes().setAll(buttonTypeNextLevel, buttonTypeExit);
+
 
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.isPresent()) {
@@ -352,7 +364,7 @@ public class GamePaneController implements Initializable {
         for (Brick brick : bricks) {
             if (brick != null && brick.isVisible()) {
                 brick.setY(brick.getY() + deltaY);
-                brick.getHealthText().setY(brick.getY() + deltaY);
+                brick.getHealthText().setY(brick.getHealthText().getY() + deltaY);
             }
         }
     }
@@ -378,10 +390,7 @@ public class GamePaneController implements Initializable {
                 SoundManager.playSound("Sound_Effects/Hit.mp3");
                 if (bricks[i].getHealth() == 0) {
                     bricks[i].setVisible(false);
-<<<<<<< HEAD
                     SoundManager.playSound("Sound_Effects/Explosion.mp3");
-=======
->>>>>>> e71112bd124342fae2dfdac56d8e0ee14011f0d0
                     updateScore(20);
                 }
 
