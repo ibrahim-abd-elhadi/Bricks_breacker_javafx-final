@@ -80,11 +80,13 @@ public class GamePaneController implements Initializable {
                     if (brick != null && brick.getY() >= 591) {
                         this.stop(); // Stop the game timer
                         Platform.runLater(this::showEndGameDialog); // Show dialog on JavaFX Application Thread
+                        warningSoundPlayed=false;
                         break;
                     } else if (areAllBricksInvisible() && (ballsFallen == numBallsToLaunch)) {
                         this.stop(); // Stop the game timer
                         maxHealth += 20;
                         Platform.runLater(this::showLevelUpDialog); // Show dialog on JavaFX Application Thread
+                        warningSoundPlayed=false;
                         break;
                     }
                 }
@@ -96,7 +98,7 @@ public class GamePaneController implements Initializable {
             private void showEndGameDialog() {
                 VBox vBox = new VBox(10);
                 ImageView loseIcon = new ImageView(String.valueOf(this.getClass().getResource("/org/example/bricks_breacker_final_project/photos/loseicon.jpg")));
-                Label loseTextHeader = new Label("A brick has reached critical position!");
+                Label loseTextHeader = new Label("A brick has reached critical position: ");
                 loseTextHeader.setTextFill(Color.WHITE);
                 vBox.setAlignment(Pos.CENTER); // Center the elements in the VBox
                 vBox.getChildren().addAll(loseIcon, loseTextHeader);
@@ -135,7 +137,7 @@ public class GamePaneController implements Initializable {
                 SoundManager.playSound("Sound_Effects/Victory.mp3");
                 VBox vBox = new VBox(10);
                 ImageView winIcon = new ImageView(String.valueOf(this.getClass().getResource("/org/example/bricks_breacker_final_project/photos/winicon.jpg")));
-                Label winTextHeader = new Label("Level Cleared You Won!");
+                Label winTextHeader = new Label("Level Cleared You Won: ");
                 winTextHeader.setTextFill(Color.WHITE);
                 vBox.setAlignment(Pos.CENTER); // Center the elements in the VBox
                 vBox.getChildren().addAll(winIcon, winTextHeader);
@@ -377,6 +379,8 @@ public class GamePaneController implements Initializable {
         }
     }
 
+
+
     private void checkBrickCollision(Ball ball) {
         double vx = ball.getVx();
         double vy = ball.getVy();
@@ -387,7 +391,6 @@ public class GamePaneController implements Initializable {
                 bricks[i].decreaseHealth();
                 updateScore(1);
                 updateHealthText(i);
-                SoundManager.playSound("Sound_Effects/Hit.mp3");
                 if (bricks[i].getHealth() == 0) {
                     bricks[i].setVisible(false);
                     SoundManager.playSound("Sound_Effects/Explosion.mp3");
