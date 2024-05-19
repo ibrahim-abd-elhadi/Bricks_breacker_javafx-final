@@ -16,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -58,6 +59,7 @@ public class GamePaneController implements Initializable {
 
     private GameController gameController;
     private boolean warningSoundPlayed = false;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -180,6 +182,8 @@ public class GamePaneController implements Initializable {
         gameStarted = false;
         healthTexts.clear();
         alignment.setVisible(false);
+        boolean warningSoundPlayed = false;
+
 
         root.getChildren().removeIf(node ->
                 (node instanceof Brick ||
@@ -378,10 +382,7 @@ public class GamePaneController implements Initializable {
                 SoundManager.playSound("Sound_Effects/Hit.mp3");
                 if (bricks[i].getHealth() == 0) {
                     bricks[i].setVisible(false);
-<<<<<<< HEAD
                     SoundManager.playSound("Sound_Effects/Explosion.mp3");
-=======
->>>>>>> e71112bd124342fae2dfdac56d8e0ee14011f0d0
                     updateScore(20);
                 }
 

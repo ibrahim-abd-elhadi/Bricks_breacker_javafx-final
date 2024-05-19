@@ -18,6 +18,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("lobby.fxml")));
         primaryStage.setTitle("Bricks Breaker Quest");
+
+        primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/org/example/bricks_breacker_final_project/photos/ball44.jpg"))));
+
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
