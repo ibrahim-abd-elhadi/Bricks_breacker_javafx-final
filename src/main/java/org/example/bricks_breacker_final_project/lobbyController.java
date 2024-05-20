@@ -26,10 +26,6 @@ public class lobbyController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("GamePane.fxml"));
             SoundManager.playSound("Sound_Effects/Start.mp3");
             root = loader.load();
-
-            // Access the controller of GamePane.fxml if needed
-            // GamePaneController gamePaneController = loader.getController();
-
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);

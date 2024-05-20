@@ -11,9 +11,6 @@ import java.util.Objects;
 
 public class Main extends Application {
 
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("lobby.fxml")));

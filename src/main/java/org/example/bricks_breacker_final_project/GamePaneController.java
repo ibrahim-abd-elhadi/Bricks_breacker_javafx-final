@@ -55,8 +55,6 @@ public class GamePaneController implements Initializable {
     @FXML
     private Text scoreText; // For displaying the score on the screen
     private int BestScore = 0;
-    private final String SCORE_FILE = "src/main/resources/org/example/bricks_breacker_final_project/best_score.txt";
-
     private GameController gameController;
     private boolean warningSoundPlayed = false;
 
