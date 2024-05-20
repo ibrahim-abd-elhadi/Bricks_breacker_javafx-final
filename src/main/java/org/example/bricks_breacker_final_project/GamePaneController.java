@@ -45,7 +45,7 @@ public class GamePaneController implements Initializable {
     private double cannonX = 350; // X position of the cannon
     private double cannonY = 720; // Y position of the cannon
     private Cannon cannon; // Cannon shape
-    private int numBallsToLaunch = 84; // Number of balls to launch
+    private int numBallsToLaunch = 44; // Number of balls to launch
     private int ballsLaunched = 0; // Counter for launched balls
     private boolean gameStarted = false;
     private Line alignment;
@@ -445,8 +445,8 @@ public class GamePaneController implements Initializable {
         alignment.setStartX(cannonX);
         alignment.setStartY(cannonY);
         alignment.setStroke(Color.VIOLET);
-        alignment.setStrokeWidth(12);
-        alignment.getStrokeDashArray().addAll(30d, 20d);
+        alignment.setStrokeWidth(7);
+        alignment.getStrokeDashArray().addAll(11d, 19d);
         root.getChildren().add(alignment);
         alignment.setVisible(false);
 
@@ -476,70 +476,22 @@ public class GamePaneController implements Initializable {
         double endY = cannonY - lineLength * Math.sin(angleRadians);
         alignment.setEndX(endX);
         alignment.setEndY(endY);
-        adjustLineEndToBrickCollision();
+
     }
 
-    private void adjustLineEndToBrickCollision() {
-        double closestIntersectionDistance = Double.MAX_VALUE;
-        Point2D closestIntersection = null;
-        Point2D cannonPoint = new Point2D(cannonX, cannonY);
-
-        for (Brick brick : bricks) {
-            if (brick != null && brick.isVisible()) {
-                List<Point2D> intersections = findLineRectIntersections(cannonX, cannonY, alignment.getEndX(), alignment.getEndY(), brick);
-                for (Point2D intersection : intersections) {
-                    if (intersection != null) {
-                        double distance = cannonPoint.distance(intersection);
-                        if (distance < closestIntersectionDistance) {
-                            closestIntersectionDistance = distance;
-                            closestIntersection = intersection;
-                        }
-                    }
-                }
-            }
-        }
-
-        if (closestIntersection != null) {
-            alignment.setEndX(closestIntersection.getX());
-            alignment.setEndY(closestIntersection.getY());
-        }
-    }
-
-    private List<Point2D> findLineRectIntersections(double x1, double y1, double x2, double y2, Brick rect) {
-        List<Point2D> intersections = new ArrayList<>();
-        intersections.add(intersectLines(x1, y1, x2, y2, rect.getX(), rect.getY(), rect.getX() + rect.getWidth(), rect.getY()));
-        intersections.add(intersectLines(x1, y1, x2, y2, rect.getX(), rect.getY() + rect.getHeight(), rect.getX() + rect.getWidth(), rect.getY() + rect.getHeight()));
-        intersections.add(intersectLines(x1, y1, x2, y2, rect.getX(), rect.getY(), rect.getX(), rect.getY() + rect.getHeight()));
-        intersections.add(intersectLines(x1, y1, x2, y2, rect.getX() + rect.getWidth(), rect.getY(), rect.getX() + rect.getWidth(), rect.getY() + rect.getHeight()));
-        return intersections.stream().filter(java.util.Objects::nonNull).collect(java.util.stream.Collectors.toList());
-    }
-
-    private Point2D intersectLines(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4) {
-        double denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
-        if (denom == 0) return null;
-
-        double intersectX = ((x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)) / denom;
-        double intersectY = ((x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2) * (x3 * y4 - y3 * x4)) / denom;
-
-        if (intersectX < Math.min(x3, x4) || intersectX > Math.max(x3, x4) ||
-                intersectY < Math.min(y3, y4) || intersectY > Math.max(y3, y4)) {
-            return null;
-        }
-        return new Point2D(intersectX, intersectY);
-    }
 
     public void createReflectedLine() {
         reflectedLine = new Line();
         reflectedLine.setStroke(Color.VIOLET);
-        reflectedLine.setStrokeWidth(12);
-        reflectedLine.getStrokeDashArray().addAll(30d, 20d);
+        reflectedLine.setStrokeWidth(7);
+        reflectedLine.getStrokeDashArray().addAll(11d, 15d);
         root.getChildren().add(reflectedLine);
         reflectedLine.setVisible(false);
     }
 
     private void updateReflectedLine(double angleDegrees) {
         double angleRadians = Math.toRadians(180 - angleDegrees);
-        double lineLength = 100;
+        double lineLength = 500;
 
         if (alignment.getEndX() >= 700) {
             reflectedLine.setStartX(700);
