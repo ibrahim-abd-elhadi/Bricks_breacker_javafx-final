@@ -84,17 +84,18 @@ public class GamePaneController implements Initializable {
                         if (!warningSoundPlayed) {
                             SoundManager.playSound("Sound_Effects/Warning.mp3");
                             warningSoundPlayed = true;
-                        }                    }
+                        }
+                    }
                     if (brick != null && brick.getY() >= 591) {
                         this.stop(); // Stop the game timer
                         Platform.runLater(this::showEndGameDialog); // Show dialog on JavaFX Application Thread
-                        warningSoundPlayed=false;
+                        warningSoundPlayed = false;
                         break;
                     } else if (areAllBricksInvisible() && (ballsFallen == numBallsToLaunch)) {
                         this.stop(); // Stop the game timer
                         maxHealth += 20;
                         Platform.runLater(this::showLevelUpDialog); // Show dialog on JavaFX Application Thread
-                        warningSoundPlayed=false;
+                        warningSoundPlayed = false;
                         break;
                     }
                 }
@@ -128,7 +129,7 @@ public class GamePaneController implements Initializable {
                         SoundManager.playSound("Sound_Effects/Start.mp3");
                         maxHealth = 30;
                         score = 0;
-                        numBallsToLaunch=74;
+                        numBallsToLaunch = 74;
                         updateScore(0);
                         reset();  // Reset game state and start over
                         gameTimer.start();  // Restart the game timer
@@ -214,7 +215,7 @@ public class GamePaneController implements Initializable {
         createAlignment();
         createReflectedLine();
         creatPivot();
-        numBallsToLaunch +=10;
+        numBallsToLaunch += 10;
         gameTimer.start();
     }
 
@@ -392,18 +393,16 @@ public class GamePaneController implements Initializable {
     }
 
 
-
     private void checkBrickCollision(Ball ball) {
         double vx = ball.getVx();
         double vy = ball.getVy();
 
         for (int i = 0; i < numBricks; i++) {
             if (bricks[i] != null && bricks[i].getHealth() > 0 && ball.getBoundsInParent().intersects(bricks[i].getBoundsInParent())) {
-
                 bricks[i].decreaseHealth();
                 updateScore(1);
                 updateHealthText(i);
-              //  SoundManager.playSound("Sound_Effects/Hit.mp3");
+                //  SoundManager.playSound("Sound_Effects/Hit.mp3");
                 if (bricks[i].getHealth() == 0) {
                     bricks[i].setVisible(false);
                     SoundManager.playSound("Sound_Effects/Explosion.mp3");
@@ -462,7 +461,7 @@ public class GamePaneController implements Initializable {
 
         });
 
-        sliderangel.setOnMouseReleased(e ->{
+        sliderangel.setOnMouseReleased(e -> {
             alignment.setVisible(false);
             reflectedLine.setVisible(false);
             pivot.setVisible(false);
@@ -528,81 +527,79 @@ public class GamePaneController implements Initializable {
         }
         return new Point2D(intersectX, intersectY);
     }
+
     public void createReflectedLine() {
         reflectedLine = new Line();
         reflectedLine.setStroke(Color.VIOLET);
         reflectedLine.setStrokeWidth(12);
-        reflectedLine.getStrokeDashArray().addAll( 30d,20d);
+        reflectedLine.getStrokeDashArray().addAll(30d, 20d);
         root.getChildren().add(reflectedLine);
         reflectedLine.setVisible(false);
     }
-    private void updateReflectedLine(double angleDegrees ) {
-        double angleRadians = Math.toRadians(180-angleDegrees);
+
+    private void updateReflectedLine(double angleDegrees) {
+        double angleRadians = Math.toRadians(180 - angleDegrees);
         double lineLength = 100;
 
-        if (alignment.getEndX()>= 700) {
+        if (alignment.getEndX() >= 700) {
             reflectedLine.setStartX(700);
-            reflectedLine.setStartY(cannonY-((700-cannonX)*Math.tan(angleRadians)));
+            reflectedLine.setStartY(cannonY - ((700 - cannonX) * Math.tan(angleRadians)));
             reflectedLine.endXProperty().bind(reflectedLine.startXProperty().subtract(lineLength * Math.cos(angleRadians)));
             reflectedLine.endYProperty().bind(reflectedLine.startYProperty().subtract(lineLength * Math.sin(angleRadians)));
-        }
-        else if (alignment.getEndX()<=0) {
+        } else if (alignment.getEndX() <= 0) {
             reflectedLine.setStartX(0);
             reflectedLine.setStartY(cannonY + ((cannonX) * Math.tan(angleRadians)));
             reflectedLine.endXProperty().bind(reflectedLine.startXProperty().subtract(lineLength * Math.cos(angleRadians)));
             reflectedLine.endYProperty().bind(reflectedLine.startYProperty().subtract(lineLength * Math.sin(angleRadians)));
-        } else if (alignment.getEndY()<=5) {
+        } else if (alignment.getEndY() <= 5) {
             reflectedLine.setStartY(5);
-            if (sliderangel.getValue()>=90) {
-                reflectedLine.setStartX(cannonX + ((cannonY) *(1/ Math.tan(angleRadians))));
+            if (sliderangel.getValue() >= 90) {
+                reflectedLine.setStartX(cannonX + ((cannonY) * (1 / Math.tan(angleRadians))));
             }
-            if (sliderangel.getValue()<90) {
-                reflectedLine.setStartX(cannonX -(cannonY) * (Math.tan(angleRadians-Math.toRadians(90))));
+            if (sliderangel.getValue() < 90) {
+                reflectedLine.setStartX(cannonX - (cannonY) * (Math.tan(angleRadians - Math.toRadians(90))));
             }
             reflectedLine.endXProperty().bind(reflectedLine.startXProperty().add(lineLength * Math.cos(angleRadians)));
             reflectedLine.endYProperty().bind(reflectedLine.startYProperty().add(lineLength * Math.sin(angleRadians)));
-         }
-        else {
-                for (int i = 0; i < numBricks; i++) {
-                    if (bricks[i] != null && bricks[i].getHealth() > 0 && alignment.getBoundsInParent().intersects(bricks[i].getBoundsInParent())) {
-                        double startX = reflectedLine.getStartX();
-                        double startY = reflectedLine.getStartY();
-                        double brickTop = bricks[i].getY();
-                        double brickBottom = brickTop + bricks[i].getHeight();
-                        double brickLeft = bricks[i].getX();
-                        double brickRight = brickLeft + bricks[i].getWidth();
+        } else {
+            for (int i = 0; i < numBricks; i++) {
+                if (bricks[i] != null && bricks[i].getHealth() > 0 && alignment.getBoundsInParent().intersects(bricks[i].getBoundsInParent())) {
+                    double startX = reflectedLine.getStartX();
+                    double startY = reflectedLine.getStartY();
+                    double brickTop = bricks[i].getY();
+                    double brickBottom = brickTop + bricks[i].getHeight();
+                    double brickLeft = bricks[i].getX();
+                    double brickRight = brickLeft + bricks[i].getWidth();
 
-                        if (startY < brickBottom) {
-                            if (startX > brickLeft || startX < brickRight) {
-                                reflectedLine.endXProperty().bind(reflectedLine.startXProperty().subtract(lineLength * Math.cos(angleRadians)));
-                                reflectedLine.endYProperty().bind(reflectedLine.startYProperty().subtract(lineLength * Math.sin(angleRadians)));
-                            }
-                        } else {
-                            reflectedLine.endXProperty().bind(reflectedLine.startXProperty().add(lineLength * Math.cos(angleRadians)));
-                            reflectedLine.endYProperty().bind(reflectedLine.startYProperty().add(lineLength * Math.sin(angleRadians)));
+                    if (startY < brickBottom) {
+                        if (startX > brickLeft || startX < brickRight) {
+                            reflectedLine.endXProperty().bind(reflectedLine.startXProperty().subtract(lineLength * Math.cos(angleRadians)));
+                            reflectedLine.endYProperty().bind(reflectedLine.startYProperty().subtract(lineLength * Math.sin(angleRadians)));
                         }
+                    } else {
+                        reflectedLine.endXProperty().bind(reflectedLine.startXProperty().add(lineLength * Math.cos(angleRadians)));
+                        reflectedLine.endYProperty().bind(reflectedLine.startYProperty().add(lineLength * Math.sin(angleRadians)));
                     }
-
                 }
             }
+        }
     }
 
-        public void setBestScore(int bestScore) {
+    public void setBestScore(int bestScore) {
         this.BestScore = bestScore;
     }
 
     public int getBestScore() {
         return BestScore;
     }
-   public void creatPivot(){
-       pivot=new Circle();
-       pivot.centerXProperty().bind(reflectedLine.startXProperty());
+
+    public void creatPivot() {
+        pivot = new Circle();
+        pivot.centerXProperty().bind(reflectedLine.startXProperty());
         pivot.centerYProperty().bind(reflectedLine.startYProperty());
         pivot.setRadius(10);
         pivot.setFill(Color.RED);
         pivot.setVisible(false);
         root.getChildren().add(pivot);
-
     }
 }
-

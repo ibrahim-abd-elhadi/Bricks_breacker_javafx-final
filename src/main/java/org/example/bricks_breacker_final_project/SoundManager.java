@@ -13,6 +13,7 @@ public class SoundManager {
         URL soundUrl = SoundManager.class.getResource("/" + soundFileName);
         Media sound = new Media(soundUrl.toString());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.stop();
         mediaPlayer.play();
     }
 }
